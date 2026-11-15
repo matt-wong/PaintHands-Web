@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import AdjustPopup from "./AdjustPopup";
+import ConnectorLine from "./ConnectorLine";
+import { frameColour } from "./frameColour";
 import PinnedImages from "./PinnedImages";
 import SearchPanel from "./SearchPanel";
 import SplitView from "./SplitView";
@@ -61,11 +63,15 @@ function App() {
         bottom={<SearchPanel onPin={pin} />}
       />
       {selected && (
-        <AdjustPopup
-          adjust={selected.adjust}
-          onChange={(adjust) => updateAdjust(selected.id, adjust)}
-          onClose={() => setSelectedId(null)}
-        />
+        <>
+          {/* Joins the popup to the pin it's editing, in the pin's colour */}
+          <ConnectorLine colour={frameColour(selected.id)} />
+          <AdjustPopup
+            adjust={selected.adjust}
+            onChange={(adjust) => updateAdjust(selected.id, adjust)}
+            onClose={() => setSelectedId(null)}
+          />
+        </>
       )}
     </main>
   );

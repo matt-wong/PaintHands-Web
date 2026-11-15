@@ -276,6 +276,23 @@ button:active {
   border-width: 12px;
 }
 
+/* The line joining the popup to the pin it's editing (ConnectorLine.tsx).
+   It covers the window but lets clicks pass through, and sits just below
+   the popup. */
+.connector {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9;
+  pointer-events: none;
+}
+
+.connector line {
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+
 /* The settings popup (AdjustPopup.tsx), floating above everything */
 .adjust-popup {
   position: fixed;
