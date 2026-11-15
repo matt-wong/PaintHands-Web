@@ -1,6 +1,6 @@
 import type { ImageResult } from "./types";
 
-// TEMPORARY: five search results to try out the look of the pinned area.
+// TEMPORARY: ten search results to try out the look of the pinned area.
 // Delete this file once real pinning works.
 //
 // All from Unsplash on purpose: Unsplash image addresses keep working, while
@@ -59,5 +59,58 @@ export const SAMPLE_PINS: ImageResult[] = [
     source: "Unsplash",
     page_url:
       "https://unsplash.com/photos/four-colorful-koi-fish-swim-in-dark-water-zJD6UVVW_Ck",
+  },
+  {
+    id: "unsplash-YV593oyMKmo",
+    title: "silver fishes underwater",
+    thumbnail:
+      "https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMDk4NDMwfDB8MXxzZWFyY2h8NXx8ZmlzaHxlbnwwfHx8fDE3OTQ3NjI4NTl8MA&ixlib=rb-4.1.0&q=80&w=400",
+    url: "https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMDk4NDMwfDB8MXxzZWFyY2h8NXx8ZmlzaHxlbnwwfHx8fDE3OTQ3NjI4NTl8MA&ixlib=rb-4.1.0&q=80&w=1080",
+    creator: "Sebastian Pena Lambarri",
+    source: "Unsplash",
+    page_url: "https://unsplash.com/photos/silver-fishes-underwater-YV593oyMKmo",
+  },
+  {
+    id: "unsplash-L-2p8fapOA8",
+    title: "brown turtle swimming underwater",
+    thumbnail:
+      "https://images.unsplash.com/photo-1437622368342-7a3d73a34c8f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMDk4NDMwfDB8MXxzZWFyY2h8N3x8ZmlzaHxlbnwwfHx8fDE3OTQ3NjI4NTl8MA&ixlib=rb-4.1.0&q=80&w=400",
+    url: "https://images.unsplash.com/photo-1437622368342-7a3d73a34c8f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMDk4NDMwfDB8MXxzZWFyY2h8N3x8ZmlzaHxlbnwwfHx8fDE3OTQ3NjI4NTl8MA&ixlib=rb-4.1.0&q=80&w=1080",
+    creator: "Wexor Tmg",
+    source: "Unsplash",
+    page_url:
+      "https://unsplash.com/photos/brown-turtle-swimming-underwater-L-2p8fapOA8",
+  },
+  {
+    id: "unsplash-RAifY0OJe4w",
+    title: "red Siamese fighting fish",
+    thumbnail:
+      "https://images.unsplash.com/photo-1544943910-4c1dc44aab44?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMDk4NDMwfDB8MXxzZWFyY2h8OHx8ZmlzaHxlbnwwfHx8fDE3OTQ3NjI4NTl8MA&ixlib=rb-4.1.0&q=80&w=400",
+    url: "https://images.unsplash.com/photo-1544943910-4c1dc44aab44?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMDk4NDMwfDB8MXxzZWFyY2h8OHx8ZmlzaHxlbnwwfHx8fDE3OTQ3NjI4NTl8MA&ixlib=rb-4.1.0&q=80&w=1080",
+    creator: "Kyaw Tun",
+    source: "Unsplash",
+    page_url: "https://unsplash.com/photos/red-siamese-fighting-fish-RAifY0OJe4w",
+  },
+  {
+    id: "unsplash-KhX9wde5Xbo",
+    title: "A puffin holds several small fish in its orange beak",
+    thumbnail:
+      "https://images.unsplash.com/photo-1781348424213-468c60e1c76a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMDk4NDMwfDB8MXxzZWFyY2h8OXx8ZmlzaHxlbnwwfHx8fDE3OTQ3NjI4NTl8MA&ixlib=rb-4.1.0&q=80&w=400",
+    url: "https://images.unsplash.com/photo-1781348424213-468c60e1c76a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMDk4NDMwfDB8MXxzZWFyY2h8OXx8ZmlzaHxlbnwwfHx8fDE3OTQ3NjI4NTl8MA&ixlib=rb-4.1.0&q=80&w=1080",
+    creator: "Doncoombez",
+    source: "Unsplash",
+    page_url:
+      "https://unsplash.com/photos/a-puffin-holds-several-small-fish-in-its-orange-beak-KhX9wde5Xbo",
+  },
+  {
+    id: "unsplash-ekthrVC_DVs",
+    title: "close up photography of red fish",
+    thumbnail:
+      "https://images.unsplash.com/photo-1524704654690-b56c05c78a00?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMDk4NDMwfDB8MXxzZWFyY2h8MTB8fGZpc2h8ZW58MHx8fHwxNzk0NzYyODU5fDA&ixlib=rb-4.1.0&q=80&w=400",
+    url: "https://images.unsplash.com/photo-1524704654690-b56c05c78a00?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMDk4NDMwfDB8MXxzZWFyY2h8MTB8fGZpc2h8ZW58MHx8fHwxNzk0NzYyODU5fDA&ixlib=rb-4.1.0&q=80&w=1080",
+    creator: "David Clode",
+    source: "Unsplash",
+    page_url:
+      "https://unsplash.com/photos/close-up-photography-of-red-fish-ekthrVC_DVs",
   },
 ];

@@ -114,33 +114,52 @@ button:active {
   min-height: 0;
   overflow-y: auto;
   padding: 0 16px 16px;
+  display: flex;
+  flex-direction: column;
 }
 
-.pinned-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+/* The pinned images sit in one row that fills the pane's height and scrolls
+   sideways. Dragging the bar makes them bigger or smaller. */
+.pinned-row {
+  flex: 1;
+  /* Lets the row shrink below the images' natural size, so they fit the pane */
+  min-height: 0;
+  display: flex;
   gap: 12px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  /* Room for the sideways scrollbar, so it doesn't cover the credits */
+  padding-bottom: 10px;
 }
 
-.pinned-grid figure {
+.pinned-row figure {
+  flex: none;
+  height: 100%;
   margin: 0;
 }
 
-.pinned-grid img {
+/* Each image is as tall as the row (less room for its credit), and as wide as
+   its own shape needs, so nothing is cropped */
+.pinned-row img {
   display: block;
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
+  height: calc(100% - 14px);
+  width: auto;
   border-radius: 8px;
 }
 
-.pinned-grid footer {
+/* One line under the image, cut short with "..." if it's wider than the image */
+.pinned-row footer {
+  height: 14px;
   font-size: 0.5em;
-  line-height: 1.3;
-  overflow-wrap: anywhere;
+  line-height: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  /* Stops a long credit from making the image's space wider */
+  contain: inline-size;
 }
 
-.pinned-grid footer a {
+.pinned-row footer a {
   color: inherit;
   text-decoration: none;
 }

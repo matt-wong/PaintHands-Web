@@ -16,10 +16,11 @@ function PinnedImages({ images }: Props) {
 
   return (
     <section className="pinned">
-      <div className="pinned-grid">
+      <div className="pinned-row">
         {images.map((img) => (
           <figure key={img.id}>
-            <img src={img.thumbnail} alt={img.title} />
+            {/* The larger version, since pinned images are shown big */}
+            <img src={img.url} alt={img.title} />
             {/* Credit the photographer and link back to the image's page */}
             <footer>
               <a href={img.page_url} target="_blank" rel="noreferrer">
