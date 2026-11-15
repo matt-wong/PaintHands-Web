@@ -1,3 +1,4 @@
+import AdjustedImage from "./AdjustedImage";
 import type { PinnedImage } from "./types";
 
 // Colours for the frames around pinned images: peach, coral, mustard
@@ -13,11 +14,15 @@ function frameColour(id: string): string {
 
 type Props = {
   pins: PinnedImage[];
+  // The pin whose settings are open in the popup, if any
+  selectedId: string | null;
+  onSelect: (id: string) => void;
   onUnpin: (id: string) => void;
 };
 
-// The top of the page, showing the pinned images
-function PinnedImages({ pins, onUnpin }: Props) {
+// The top of the page, showing the pinned images. Clicking one opens its
+// settings.
+function PinnedImages({ pins, selectedId, onSelect, onUnpin }: Props) {
   if (pins.length === 0) {
     return (
       <section className="pinned">
@@ -30,8 +35,8 @@ function PinnedImages({ pins, onUnpin }: Props) {
     <section className="pinned">
       <div className="pinned-row">
         {/* Keyed by the pin's own id, since the same image can be pinned twice */}
-        {pins.map(({ id, image: img }) => (
-          <figure key={id}>
+        {pins.map(({ id, image: img, adjust }) => (
+          <figure key={id} className={id === selectedId ? "selected" : undefined}>
             <button
               type="button"
               className="unpin"
@@ -41,13 +46,22 @@ function PinnedImages({ pins, onUnpin }: Props) {
             >
               ×
             </button>
-            {/* The larger version, since pinned images are shown big */}
-            <img
-              src={img.url}
-              alt={img.title}
-              // From the pin's id, so two copies of a photo can differ
+            {/* The frame wraps the photo, so the settings change only the
+                photo. Its colour comes from the pin's id, so two copies of a
+                photo can differ. */}
+            <div
+              className="frame"
               style={{ borderColor: frameColour(id) }}
-            />
+              title="Click to adjust"
+              onClick={() => onSelect(id)}
+            >
+              {/* The larger version, since pinned images are shown big */}
+              <AdjustedImage
+                src={img.url}
+                alt={img.title}
+                adjust={adjust}
+              />
+            </div>
             {/* Credit the photographer and link back to the image's page */}
             <footer>
               <a href={img.page_url} target="_blank" rel="noreferrer">

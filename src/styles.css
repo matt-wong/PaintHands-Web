@@ -249,17 +249,80 @@ button:active {
   line-height: 1;
 }
 
-/* Each image is as tall as the row (less room for its credit), and as wide as
-   its own shape needs, so nothing is cropped */
-.pinned-row img {
-  display: block;
+/* The frame around each pinned photo; its colour is picked for each pin in
+   PinnedImages.tsx. It's as tall as the row (less room for the credit). */
+.pinned-row .frame {
   height: calc(100% - 14px);
-  width: auto;
   border-radius: 0px;
-  /* A frame; its colour is picked for each image in PinnedImages.tsx */
   border: 6px solid;
   /* The frame fits inside the image's space instead of making it bigger */
   box-sizing: border-box;
+  cursor: pointer;
+}
+
+/* The photo fills the frame's height and is as wide as its own shape needs,
+   so nothing is cropped. Its settings (brightness etc.) apply to it alone. */
+.pinned-row .frame img {
+  display: block;
+  height: 100%;
+  width: auto;
+}
+
+/* The pin whose settings are open in the popup */
+.pinned-row figure.selected .frame {
+  outline: 2px solid #f6f6f6;
+  outline-offset: 2px;
+}
+
+/* The settings popup (AdjustPopup.tsx), floating above everything */
+.adjust-popup {
+  position: fixed;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 0 14px 14px;
+  border-radius: 8px;
+  background-color: rgba(20, 35, 42, 0.92);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  text-align: left;
+}
+
+/* The top bar, which the popup is dragged by */
+.adjust-popup-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0 4px;
+  font-weight: 600;
+  cursor: move;
+  /* On touch screens, dragging the bar moves the popup instead of scrolling */
+  touch-action: none;
+}
+
+.adjust-close {
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border-radius: 50%;
+  font-size: 16px;
+  line-height: 1;
+}
+
+/* Each slider: its name and value on one line, the slider underneath */
+.adjust-slider {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  font-size: 0.85em;
+}
+
+.adjust-slider input {
+  grid-column: 1 / -1;
+  width: 100%;
+  padding: 0;
+  border: none;
+  box-shadow: none;
+  background: transparent;
 }
 
 /* One line under the image, cut short with "..." if it's wider than the image */
