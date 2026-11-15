@@ -38,7 +38,7 @@ function SearchPanel({ onPin }: Props) {
 
   // Before the first search there's nothing to show, so say what to do
   const message =
-    status || (results.length ? "" : "Search, or press Random, to find images.");
+    status || (results.length ? "" : "");
 
   return (
     <section className="search-panel">
