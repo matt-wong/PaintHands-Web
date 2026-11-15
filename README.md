@@ -30,8 +30,22 @@ images. It's a web app that runs on Cloudflare.
 npm run dev
 ```
 
-Then open the address it prints (normally http://localhost:5173). This runs the
-page and the server together, and reloads the page as you edit files.
+Then open http://localhost:5173. This runs the page and the server together,
+and reloads the page as you edit files.
+
+It always uses that address. Pinned images are saved in the browser, which
+keeps them separately for each address (port included), so if port 5173 is
+busy it stops with a message instead of moving to another port.
+
+### From any folder
+
+`scripts/painthands.sh` does the same from anywhere, and opens the browser for
+you (or just opens it, if PaintHands is already running). To be able to type
+`painthands` in any terminal, link it into a folder your terminal looks in:
+
+```sh
+ln -s "$PWD/scripts/painthands.sh" ~/.local/bin/painthands
+```
 
 ## Check for mistakes
 
