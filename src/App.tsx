@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import AdjustPopup from "./AdjustPopup";
 import ConnectorLine from "./ConnectorLine";
 import { frameColour } from "./frameColour";
+import { deletePastedImage, isPasted, savePastedImage } from "./imageStore";
 import PinnedImages from "./PinnedImages";
 import SearchPanel from "./SearchPanel";
 import SplitView from "./SplitView";
@@ -37,9 +38,40 @@ function App() {
 
   // Removes one pin (by the pin's own id, so other copies stay)
   function unpin(pinId: string) {
+    const removed = pins.find((p) => p.id === pinId);
     setPins((current) => current.filter((p) => p.id !== pinId));
     if (pinId === selectedId) setSelectedId(null);
+    // A pasted picture is deleted too, once no other pin shows it
+    if (
+      removed &&
+      isPasted(removed.image) &&
+      !pins.some((p) => p.id !== pinId && p.image.id === removed.image.id)
+    ) {
+      deletePastedImage(removed.image.id);
+    }
   }
+
+  // Pasting an image anywhere on the page (Cmd+V) pins it
+  useEffect(() => {
+    async function onPaste(e: ClipboardEvent) {
+      // Pasting into the search box (or any text field) works as normal
+      if ((e.target as HTMLElement | null)?.closest("input, textarea")) return;
+      // The pictures have to be taken from the clipboard straight away; it
+      // empties once this function first waits for something
+      const pictures = [...(e.clipboardData?.items ?? [])]
+        .filter((item) => item.kind === "file" && item.type.startsWith("image/"))
+        .map((item) => item.getAsFile())
+        .filter((file): file is File => file !== null);
+      if (pictures.length === 0) return;
+      e.preventDefault();
+      for (const picture of pictures) {
+        const image = await savePastedImage(picture);
+        if (image) pin(image);
+      }
+    }
+    window.addEventListener("paste", onPaste);
+    return () => window.removeEventListener("paste", onPaste);
+  }, []);
 
   // Changes one pin's settings (from the popup's sliders)
   function updateAdjust(pinId: string, adjust: Adjustments) {

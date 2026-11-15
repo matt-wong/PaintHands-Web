@@ -16,7 +16,9 @@ function PinnedImages({ pins, selectedId, onSelect, onUnpin }: Props) {
   if (pins.length === 0) {
     return (
       <section className="pinned">
-        <p className="hint">Click a search result to pin it here.</p>
+        <p className="hint">
+          Click a search result, or paste an image, to pin it here.
+        </p>
       </section>
     );
   }
@@ -45,19 +47,19 @@ function PinnedImages({ pins, selectedId, onSelect, onUnpin }: Props) {
               title="Click to adjust"
               onClick={() => onSelect(id)}
             >
-              {/* The larger version, since pinned images are shown big */}
-              <AdjustedImage
-                src={img.url}
-                alt={img.title}
-                adjust={adjust}
-              />
+              <AdjustedImage image={img} adjust={adjust} />
             </div>
-            {/* Credit the photographer and link back to the image's page */}
+            {/* Credit the photographer and link back to the image's page.
+                Pasted images have no page, so they just say "Pasted". */}
             <footer>
-              <a href={img.page_url} target="_blank" rel="noreferrer">
-                {img.creator ? `${img.creator} · ` : ""}
-                {img.source}
-              </a>
+              {img.page_url ? (
+                <a href={img.page_url} target="_blank" rel="noreferrer">
+                  {img.creator ? `${img.creator} · ` : ""}
+                  {img.source}
+                </a>
+              ) : (
+                img.source
+              )}
             </footer>
           </figure>
         ))}
