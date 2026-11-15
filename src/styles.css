@@ -271,10 +271,9 @@ button:active {
   width: auto;
 }
 
-/* The pin whose settings are open in the popup */
+/* The pin whose settings are open in the popup gets a wider frame */
 .pinned-row figure.selected .frame {
-  outline: 2px solid #f6f6f6;
-  outline-offset: 2px;
+  border-width: 12px;
 }
 
 /* The settings popup (AdjustPopup.tsx), floating above everything */
