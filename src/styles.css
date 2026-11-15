@@ -6,9 +6,6 @@
 
   /* Light text, to read against the dark background */
   color: #f6f6f6;
-  /* Navy at the top fading to teal at the bottom, behind the whole app.
-     "fixed" keeps it the size of the window. */
-  background: linear-gradient(to bottom, #2e4552, #4f9a8e) fixed;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -19,6 +16,102 @@
 
 body {
   margin: 0;
+}
+
+/* Animated background: teal shapes on navy that open and close, with the two
+   colours swapping halfway through. Registering these four values (@property)
+   is what lets the browser animate them smoothly. */
+@property --a {
+  syntax: "<angle>";
+  inherits: true;
+  initial-value: 0deg;
+}
+@property --p {
+  syntax: "<percentage>";
+  inherits: true;
+  initial-value: 0%;
+}
+@property --c1 {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #000;
+}
+@property --c2 {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #000;
+}
+
+html {
+  /* Size of each tile in the pattern */
+  --s: 8px;
+  /* The animation's first frame, also shown if the animation is off */
+  --a: 135deg;
+  --p: 20%;
+  --c1: #23574e;
+  --c2: #2e4552;
+  --_g: #0000, var(--c1) 2deg calc(var(--a) - 2deg), #0000 var(--a);
+  background:
+    conic-gradient(from calc(-45deg - var(--a) / 2) at top var(--p) left var(--p), var(--_g)),
+    conic-gradient(from calc(-45deg - var(--a) / 2) at top var(--p) left var(--p), var(--_g)),
+    conic-gradient(from calc(45deg - var(--a) / 2) at top var(--p) right var(--p), var(--_g)),
+    conic-gradient(from calc(45deg - var(--a) / 2) at top var(--p) right var(--p), var(--_g)),
+    conic-gradient(from calc(-135deg - var(--a) / 2) at bottom var(--p) left var(--p), var(--_g)),
+    conic-gradient(from calc(-135deg - var(--a) / 2) at bottom var(--p) left var(--p), var(--_g)),
+    conic-gradient(from calc(135deg - var(--a) / 2) at bottom var(--p) right var(--p), var(--_g)),
+    conic-gradient(from calc(135deg - var(--a) / 2) at bottom var(--p) right var(--p), var(--_g))
+      var(--c2);
+  background-size: calc(2 * var(--s)) calc(2 * var(--s));
+  background-position: 0 0, var(--s) var(--s);
+  animation: m 2s infinite alternate linear;
+}
+
+/* Stays still for anyone who has asked their computer for less motion */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    animation: none;
+  }
+}
+
+/* The shapes (--c1) fade towards the background (--c2) as they move, so the
+   two are closest halfway through, where they swap. The swap is seamless: at
+   that moment the pattern looks the same with the colours swapped and the
+   tiles shifted, so the faded colour carries over as the new background. */
+@keyframes m {
+  0%,
+  15% {
+    --a: 135deg;
+    --p: 20%;
+    --c1: #23574e;
+    --c2: #2e4552;
+    background-position: 0 0, var(--s) var(--s);
+  }
+  45%,
+  50% {
+    --a: 90deg;
+    --p: 25%;
+    /* Teal mixed mostly with navy: 25% teal is left. Lower = closer to navy. */
+    --c1: color-mix(in srgb, #23574e 25%, #2e4552);
+    --c2: #2e4552;
+    background-position: 0 0, var(--s) var(--s);
+  }
+  50.01%,
+  55% {
+    --a: 90deg;
+    --p: 25%;
+    /* Same faded colour as just before, now as the background */
+    --c2: color-mix(in srgb, #23574e 25%, #2e4552);
+    --c1: #2e4552;
+    background-position: var(--s) 0, 0 var(--s);
+  }
+  85%,
+  100% {
+    --a: 135deg;
+    --p: 20%;
+    --c2: #23574e;
+    --c1: #2e4552;
+    background-position: var(--s) 0, 0 var(--s);
+  }
 }
 
 /* The whole window: the title, then the split area below it */
