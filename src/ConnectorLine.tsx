@@ -30,12 +30,20 @@ type Props = {
   colour: string;
 };
 
+// How far the arrow sits from the popup's side, and its size, in pixels
+const ARROW_GAP = 8;
+const ARROW_LENGTH = 12;
+const ARROW_HALF_HEIGHT = 10;
+
 // A line joining the settings popup to the pinned image it's editing, from
-// edge to edge. Either end can move (dragging the popup, scrolling the pins,
-// dragging the split bar, resizing the window), so while it's showing it
-// measures both every frame and moves the line to match.
+// edge to edge. When the image is scrolled out of sight, the line is swapped
+// for an arrow on that side of the popup, pointing the way to it.
+// Either end can move (dragging the popup, scrolling the pins, dragging the
+// split bar, resizing the window), so while it's showing it measures both
+// every frame and redraws to match.
 function ConnectorLine({ colour }: Props) {
   const line = useRef<SVGLineElement>(null);
+  const arrow = useRef<SVGPolygonElement>(null);
 
   useEffect(() => {
     let request = 0;
@@ -43,16 +51,47 @@ function ConnectorLine({ colour }: Props) {
     function update() {
       request = requestAnimationFrame(update);
       const el = line.current;
+      const arrowEl = arrow.current;
       const popup = document.querySelector(".adjust-popup");
       const pin = document.querySelector(".pinned-row figure.selected .frame");
       const row = document.querySelector(".pinned-row");
-      if (!el || !popup || !pin || !row) return;
+      if (!el || !arrowEl || !popup || !pin || !row) return;
 
       const popupBox = popup.getBoundingClientRect();
-      // Only the part of the pin that's visible in the row; if it's scrolled
-      // out of sight, or the popup is on top of it, there's no line
-      const pinBox = overlap(pin.getBoundingClientRect(), row.getBoundingClientRect());
-      if (!pinBox || overlap(popupBox, pinBox)) {
+      const pinFull = pin.getBoundingClientRect();
+      const rowBox = row.getBoundingClientRect();
+      // Only the part of the pin that's visible in the row
+      const pinBox = overlap(pinFull, rowBox);
+
+      // Scrolled out of sight: hide the line, and point the arrow its way
+      if (!pinBox) {
+        el.style.display = "none";
+        const side =
+          pinFull.right <= rowBox.left ? "left"
+          : pinFull.left >= rowBox.right ? "right"
+          : null;
+        if (!side) {
+          arrowEl.style.display = "none";
+          return;
+        }
+        const middle = (popupBox.top + popupBox.bottom) / 2;
+        // The arrow's point, and the x where its flat back is
+        const tip =
+          side === "left"
+            ? popupBox.left - ARROW_GAP - ARROW_LENGTH
+            : popupBox.right + ARROW_GAP + ARROW_LENGTH;
+        const back = side === "left" ? tip + ARROW_LENGTH : tip - ARROW_LENGTH;
+        arrowEl.setAttribute(
+          "points",
+          `${tip},${middle} ${back},${middle - ARROW_HALF_HEIGHT} ${back},${middle + ARROW_HALF_HEIGHT}`,
+        );
+        arrowEl.style.display = "";
+        return;
+      }
+      arrowEl.style.display = "none";
+
+      // The popup is on top of the pin: nothing to join
+      if (overlap(popupBox, pinBox)) {
         el.style.display = "none";
         return;
       }
@@ -81,6 +120,7 @@ function ConnectorLine({ colour }: Props) {
   return (
     <svg className="connector" aria-hidden="true">
       <line ref={line} stroke={colour} style={{ display: "none" }} />
+      <polygon ref={arrow} fill={colour} style={{ display: "none" }} />
     </svg>
   );
 }
