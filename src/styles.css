@@ -94,7 +94,6 @@ button:active {
   /* On touch screens, dragging the bar moves it instead of scrolling the page */
   touch-action: none;
   background-color: rgba(128, 128, 128, 0.15);
-  outline: none;
 }
 
 .splitter::after {
@@ -105,8 +104,7 @@ button:active {
   background-color: rgba(128, 128, 128, 0.6);
 }
 
-.splitter:hover,
-.splitter:focus-visible {
+.splitter:hover {
   background-color: rgba(57, 108, 216, 0.3);
 }
 

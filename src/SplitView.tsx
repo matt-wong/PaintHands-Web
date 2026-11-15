@@ -4,18 +4,13 @@ import { useRef, useState, type ReactNode } from "react";
 const MIN_PERCENT = 10;
 const MAX_PERCENT = 85;
 
-function clamp(percent: number): number {
-  return Math.min(MAX_PERCENT, Math.max(MIN_PERCENT, percent));
-}
-
 type Props = {
   top: ReactNode;
   bottom: ReactNode;
 };
 
 // Two panes stacked on top of each other, with a bar between them that can be
-// dragged up and down. With the bar selected (Tab to it), the arrow keys move
-// it too; double-clicking it puts it back in the middle.
+// dragged up and down, or double-clicked to put it back in the middle
 function SplitView({ top, bottom }: Props) {
   // How much of the height the top pane gets, in percent
   const [topPercent, setTopPercent] = useState(50);
@@ -25,7 +20,8 @@ function SplitView({ top, bottom }: Props) {
   function dragTo(pointerY: number) {
     const box = area.current?.getBoundingClientRect();
     if (!box) return;
-    setTopPercent(clamp(((pointerY - box.top) / box.height) * 100));
+    const percent = ((pointerY - box.top) / box.height) * 100;
+    setTopPercent(Math.min(MAX_PERCENT, Math.max(MIN_PERCENT, percent)));
   }
 
   return (
@@ -36,13 +32,6 @@ function SplitView({ top, bottom }: Props) {
 
       <div
         className="splitter"
-        role="separator"
-        aria-orientation="horizontal"
-        aria-label="Drag to resize"
-        aria-valuenow={Math.round(topPercent)}
-        aria-valuemin={MIN_PERCENT}
-        aria-valuemax={MAX_PERCENT}
-        tabIndex={0}
         onPointerDown={(e) => {
           // Stops the drag selecting text on the page
           e.preventDefault();
@@ -53,10 +42,7 @@ function SplitView({ top, bottom }: Props) {
         onPointerMove={(e) => {
           if (e.currentTarget.hasPointerCapture(e.pointerId)) dragTo(e.clientY);
         }}
-        onKeyDown={(e) => {
-          if (e.key === "ArrowUp") setTopPercent((p) => clamp(p - 5));
-          if (e.key === "ArrowDown") setTopPercent((p) => clamp(p + 5));
-        }}
+        // Double-clicking the bar puts it back in the middle
         onDoubleClick={() => setTopPercent(50)}
       />
 
