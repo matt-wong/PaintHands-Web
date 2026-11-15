@@ -1,8 +1,14 @@
 import { useState } from "react";
 import type { ImageResult, SearchResponse } from "./types";
 
-// Search box, Search and Random along the top, results underneath
-function SearchPanel() {
+type Props = {
+  // Adds a pin for a result (each click adds another)
+  onPin: (image: ImageResult) => void;
+};
+
+// Search box, Search and Random along the top, results underneath. Clicking a
+// result pins it.
+function SearchPanel({ onPin }: Props) {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<ImageResult[]>([]);
   // "Searching...", an error, or empty when there's nothing to say
@@ -59,7 +65,13 @@ function SearchPanel() {
         <div className="results">
           {results.map((img) => (
             <figure key={img.id}>
-              <img src={img.thumbnail} alt={img.title} loading="lazy" />
+              <img
+                src={img.thumbnail}
+                alt={img.title}
+                loading="lazy"
+                title="Click to pin"
+                onClick={() => onPin(img)}
+              />
               {/* Credit the photographer and link back to the image's page */}
               <footer>
                 <a href={img.page_url} target="_blank" rel="noreferrer">

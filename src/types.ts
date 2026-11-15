@@ -20,3 +20,29 @@ export type SearchResponse = {
   results: ImageResult[];
   errors: string[];
 };
+
+// How a pinned image is shown. These are settings applied on top of the
+// original photo when it's displayed; the photo itself is never changed.
+export type Adjustments = {
+  brightness: number; // percent, 100 = unchanged
+  contrast: number; // percent, 100 = unchanged
+  saturation: number; // percent, 100 = unchanged
+  hue: number; // degrees, 0 = unchanged
+};
+
+// A newly pinned image starts with nothing changed
+export const DEFAULT_ADJUSTMENTS: Adjustments = {
+  brightness: 100,
+  contrast: 100,
+  saturation: 100,
+  hue: 0,
+};
+
+// One pinned image: the search result plus its own settings. The same image
+// can be pinned more than once (to try different settings), so each pin has
+// its own id, separate from the image's.
+export type PinnedImage = {
+  id: string;
+  image: ImageResult;
+  adjust: Adjustments;
+};

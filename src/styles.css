@@ -232,6 +232,21 @@ button:active {
   flex: none;
   height: 100%;
   margin: 0;
+  /* So the unpin button can sit in its corner */
+  position: relative;
+}
+
+/* The small × in each pinned image's top-right corner */
+.unpin {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border-radius: 50%;
+  font-size: 16px;
+  line-height: 1;
 }
 
 /* Each image is as tall as the row (less room for its credit), and as wide as
@@ -311,6 +326,8 @@ button:active {
   height: 160px;
   object-fit: cover;
   border-radius: 0px;
+  /* Clicking a result pins it */
+  cursor: pointer;
 }
 
 .results footer {
