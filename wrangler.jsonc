@@ -1,0 +1,14 @@
+// Settings for Cloudflare: what the app is called and where its server code is
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "painthands",
+  // Which version of Cloudflare's behaviour to run against; only move it forward on purpose
+  "compatibility_date": "2026-11-01",
+  "main": "./worker/index.ts",
+  "assets": {
+    // Any address that isn't a file gets the app's page
+    "not_found_handling": "single-page-application",
+    // ...except /api/ addresses, which always go to the server code
+    "run_worker_first": ["/api/*"]
+  }
+}

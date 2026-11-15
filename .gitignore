@@ -1,0 +1,19 @@
+# Installed packages and build output
+node_modules
+dist
+
+# Logs
+*.log
+
+# API keys: never commit these
+.env
+.dev.vars*
+
+# Cloudflare's local working files
+.wrangler
+
+# Editor and system files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
