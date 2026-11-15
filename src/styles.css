@@ -18,11 +18,7 @@ body {
   margin: 0;
 }
 
-h1 {
-  margin-top: 0;
-}
-
-/* The whole window: the board scrolls on top, the search panel stays at the bottom */
+/* The whole window: the title, then the split area below it */
 .container {
   height: 100vh;
   display: flex;
@@ -30,11 +26,10 @@ h1 {
   text-align: center;
 }
 
-.board {
-  flex: 1;
-  min-height: 0;
-  overflow-y: auto;
-  padding: 4vh 0 16px;
+.container > h1 {
+  flex: none;
+  margin: 0;
+  padding: 3vh 0 8px;
 }
 
 .hint {
@@ -69,10 +64,66 @@ button:active {
   background-color: #e8e8e8;
 }
 
-.search-panel {
+/* The split area: top pane, the bar, bottom pane. The top pane's height is set
+   in SplitView.tsx; the bottom pane takes the rest. */
+.split {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.split-pane {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.split-bottom {
+  flex: 1;
+}
+
+/* The bar between the panes, with a small grip in the middle */
+.splitter {
   flex: none;
-  background-color: #f6f6f6;
-  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 12px;
+  cursor: row-resize;
+  /* On touch screens, dragging the bar moves it instead of scrolling the page */
+  touch-action: none;
+  background-color: rgba(128, 128, 128, 0.15);
+  outline: none;
+}
+
+.splitter::after {
+  content: "";
+  width: 40px;
+  height: 4px;
+  border-radius: 2px;
+  background-color: rgba(128, 128, 128, 0.6);
+}
+
+.splitter:hover,
+.splitter:focus-visible {
+  background-color: rgba(57, 108, 216, 0.3);
+}
+
+/* Pinned images fill the top pane and scroll on their own */
+.pinned {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 0 16px 16px;
+}
+
+/* Search fills the bottom pane */
+.search-panel {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
 }
 
 .search-header {
@@ -87,13 +138,10 @@ button:active {
   min-width: 0;
 }
 
-.search-toggle {
-  padding: 0.6em 0.9em;
-}
-
-/* The open panel takes up to half the window and scrolls its own results */
+/* The results fill the rest of the bottom pane and scroll on their own */
 .search-body {
-  max-height: 50vh;
+  flex: 1;
+  min-height: 0;
   overflow-y: auto;
 }
 
@@ -135,8 +183,7 @@ button:active {
 }
 
 @media (prefers-color-scheme: dark) {
-  :root,
-  .search-panel {
+  :root {
     color: #f6f6f6;
     background-color: #2f2f2f;
   }
