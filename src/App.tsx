@@ -2,7 +2,12 @@ import { useEffect, useState } from "react";
 import AdjustPopup from "./AdjustPopup";
 import ConnectorLine from "./ConnectorLine";
 import { frameColour } from "./frameColour";
-import { deletePastedImage, isPasted, savePastedImage } from "./imageStore";
+import {
+  deleteSavedCopy,
+  hasSavedCopy,
+  prepareToPin,
+  savePastedImage,
+} from "./imageStore";
 import PinnedImages from "./PinnedImages";
 import SearchPanel from "./SearchPanel";
 import SplitView from "./SplitView";
@@ -28,8 +33,11 @@ function App() {
   const selected = pins.find((p) => p.id === selectedId);
 
   // Adds a new pin for a search result. Pinning the same image again adds
-  // another copy, so each can have different settings.
-  function pin(image: ImageResult) {
+  // another copy, so each can have different settings. A Pixabay image is
+  // downloaded and saved first (see imageStore.ts), so it appears a moment
+  // after the click.
+  async function pin(result: ImageResult) {
+    const image = await prepareToPin(result);
     setPins((current) => [
       ...current,
       { id: newPinId(), image, adjust: { ...DEFAULT_ADJUSTMENTS } },
@@ -41,13 +49,14 @@ function App() {
     const removed = pins.find((p) => p.id === pinId);
     setPins((current) => current.filter((p) => p.id !== pinId));
     if (pinId === selectedId) setSelectedId(null);
-    // A pasted picture is deleted too, once no other pin shows it
+    // A saved picture (pasted or Pixabay) is deleted too, once no other pin
+    // shows it
     if (
       removed &&
-      isPasted(removed.image) &&
+      hasSavedCopy(removed.image) &&
       !pins.some((p) => p.id !== pinId && p.image.id === removed.image.id)
     ) {
-      deletePastedImage(removed.image.id);
+      deleteSavedCopy(removed.image.id);
     }
   }
 

@@ -271,6 +271,28 @@ button:active {
   width: auto;
 }
 
+/* Shown in the frame instead of a photo that can't be loaded
+   (AdjustedImage.tsx). It's as tall as a photo and a fixed shape, with the
+   text wrapped to fit, so a long description can't make the pin very wide. */
+.pinned-row .frame .image-failed {
+  box-sizing: border-box;
+  height: 100%;
+  aspect-ratio: 4 / 3;
+  /* Room at the top for the unpin button */
+  padding: 36px 12px;
+  display: flex;
+  flex-direction: column;
+  /* Centred, unless the text is too long to fit; then it starts at the top */
+  justify-content: safe center;
+  gap: 6px;
+  overflow: hidden;
+  font-size: 0.75em;
+  line-height: 1.3;
+  /* Breaks a very long word rather than letting it stick out */
+  overflow-wrap: anywhere;
+  background-color: rgba(0, 0, 0, 0.25);
+}
+
 /* The pin whose settings are open in the popup gets a wider frame */
 .pinned-row figure.selected .frame {
   border-width: 12px;

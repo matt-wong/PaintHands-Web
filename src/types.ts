@@ -12,6 +12,9 @@ export type ImageResult = {
   source: string;
   // The image's own page on Unsplash or Pixabay
   page_url: string;
+  // Set by the page once the picture itself is saved in this browser
+  // (imageStore.ts), so it's shown from there instead of its web address
+  saved?: boolean;
 };
 
 // What /api/search sends back. A site that fails adds a message to `errors`
